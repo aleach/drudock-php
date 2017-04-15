@@ -14,7 +14,7 @@ ENV XDEBUG_VERSION 2.4.0
 ENV XDEBUG_MD5 a9bc9c6b9e8bc913fb1f7c6f6d19f6222d430414
 
 RUN apt-get -y update && apt-get install -y software-properties-common python-software-properties && \
-    add-apt-repository ppa:ondrej/php5-5.6
+    add-apt-repository ppa:ondrej/php
 
 RUN apt-get update && apt-get -q install -y --no-install-recommends php5-fpm php5-curl curl\
     build-essential php5-dev php5-xdebug wget php5-mcrypt php5-gd imagemagick\
