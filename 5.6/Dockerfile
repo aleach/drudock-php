@@ -24,7 +24,7 @@ RUN apt-get -q install -y --no-install-recommends php5.6-fpm php5.6-curl curl\
     msmtp mailutils libncurses-dev zlib1g-dev php5.6-json openssh-server make\
     libreadline-dev libncurses5-dev libpcre3-dev libssl-dev perl libxslt1-dev libgd2-xpm-dev\
     libgeoip-dev libxrender1 libssl-dev libbz2-dev libcurl4-openssl-dev\
-    libfreetype6 libfreetype6-dev libfontconfig libfontconfig1 libexpat-dev && \
+    libfreetype6 libfreetype6-dev libfontconfig libfontconfig1 libexpat-dev git && \
     apt-get autoremove
 
 # Install XHPROF
@@ -67,14 +67,14 @@ RUN curl -L -o /root/xhprof.tgz https://pecl.php.net/get/xhprof-$XHPROF_VERSION.
 # Cleanup build
     apt-get autoremove -y
 
-RUN echo "error_reporting = E_ALL\ndisplay_startup_errors = 1\ndisplay_errors = 1" >> /etc/php5/fpm/conf.d/01-errors.ini && \
-    echo "error_reporting = E_ALL\ndisplay_startup_errors = 1\ndisplay_errors = 1" >> /etc/php5/cli/conf.d/01-errors.ini && \
+RUN echo "error_reporting = E_ALL\ndisplay_startup_errors = 1\ndisplay_errors = 1" >> /etc/php/5.6/fpm/conf.d/01-errors.ini && \
+    echo "error_reporting = E_ALL\ndisplay_startup_errors = 1\ndisplay_errors = 1" >> /etc/php/5.6/cli/conf.d/01-errors.ini && \
     echo "mailhub=mailcatcher:1025\nUseTLS=NO\nFromLineOverride=YES" > /etc/ssmtp/ssmtp.conf
 
 RUN mkdir -p /var/run/sshd /var/log/supervisor && \
-    php5enmod mcrypt && \
     usermod -u 1000 www-data && \
     usermod -a -G users www-data
+
 COPY config/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Install useful Drush
@@ -90,8 +90,7 @@ COPY ./ssh/config /root/.ssh/config
 COPY ./ssh/dockerdev /root/.ssh/dockerdev
 COPY ./ssh/dockerdev.pub /root/.ssh/dockerdev.pub
 COPY ./ssh/authorized_keys /root/.ssh/authorized_keys
-
-ADD ./config/php-fpm.conf /etc/php5/fpm/php-fpm.conf
+COPY ./config/php-fpm.conf /etc/php5/fpm/php-fpm.conf
 
 # Internal Port Expose
 EXPOSE 9000 22
