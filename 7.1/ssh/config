@@ -1,0 +1,5 @@
+Host docker.dev
+  IdentityFile ~/.ssh/dockerdev
+  Hostname docker.dev
+  User root
+  Port 8022
