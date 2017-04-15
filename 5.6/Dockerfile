@@ -14,16 +14,17 @@ ENV XDEBUG_VERSION 2.4.0
 ENV XDEBUG_MD5 a9bc9c6b9e8bc913fb1f7c6f6d19f6222d430414
 
 RUN apt-get -y update && apt-get install -y software-properties-common python-software-properties && \
-    add-apt-repository ppa:ondrej/php
+    add-apt-repository ppa:ondrej/php && \
+    apt-get update -y
 
-RUN apt-get update && apt-get -q install -y --no-install-recommends php5-fpm php5-curl curl\
-    build-essential php5-dev php5-xdebug wget php5-mcrypt php5-gd imagemagick\
-    php5-xsl php5-imap php5-pgsql php-apc php5-mysql mysql-client ssmtp\
-    php5-common php-pear nginx-extras php5-redis php5-json php5-cli supervisor\
-    msmtp mailutils libncurses-dev zlib1g-dev php5-json openssh-server make\
+RUN apt-get -q install -y --no-install-recommends php5.6-fpm php5.6-curl curl\
+    build-essential php5.6-dev php5.6-xdebug wget php5.6-mcrypt php5.6-gd imagemagick\
+    php5.6-xsl php5.6-imap php5.6-pgsql php5.6-mysql mysql-client ssmtp\
+    php5.6-common php-pear nginx-extras php5.6-redis php5.6-json php5.6-cli supervisor\
+    msmtp mailutils libncurses-dev zlib1g-dev php5.6-json openssh-server make\
     libreadline-dev libncurses5-dev libpcre3-dev libssl-dev perl libxslt1-dev libgd2-xpm-dev\
-    libgeoip-dev libxrender1 libssl-dev libXext-dev libbz2-dev libcurl4-openssl-dev\
-    libfreetype6 libfreetype6-dev libfontconfig libfontconfig1 libexpat-dev libssh2-php && \
+    libgeoip-dev libxrender1 libssl-dev libbz2-dev libcurl4-openssl-dev\
+    libfreetype6 libfreetype6-dev libfontconfig libfontconfig1 libexpat-dev && \
     apt-get autoremove
 
 # Install XHPROF
@@ -90,7 +91,7 @@ COPY ./ssh/dockerdev /root/.ssh/dockerdev
 COPY ./ssh/dockerdev.pub /root/.ssh/dockerdev.pub
 COPY ./ssh/authorized_keys /root/.ssh/authorized_keys
 
-COPY ./config/php-fpm.conf /etc/php5/fpm/php-fpm.conf
+ADD ./config/php-fpm.conf /etc/php5/fpm/php-fpm.conf
 
 # Internal Port Expose
 EXPOSE 9000 22
