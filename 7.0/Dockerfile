@@ -106,17 +106,19 @@ RUN mkdir -p /var/run/sshd /var/log/supervisor && \
     usermod -u 1000 www-data && \
     usermod -a -G users www-data
 
-ADD ./config/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
-ADD ./config/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
-ADD ./config/www.conf /etc/php/7.0/fpm/pool.d/www.conf
-ADD ./config/php.ini /etc/php/7.0/fpm/php.ini
-ADD ./config/cli-php.ini /etc/php/7.0/fpm/cli-php.ini
-ADD ./config/htaccess /tmp/.htaccess
+COPY ./config/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+COPY ./config/php-fpm.conf /etc/php/7.0/fpm/php-fpm.conf
+COPY ./config/www.conf /etc/php/7.0/fpm/pool.d/www.conf
+COPY ./config/php.ini /etc/php/7.0/fpm/php.ini
+COPY ./config/cli-php.ini /etc/php/7.0/fpm/cli-php.ini
+COPY ./config/htaccess /tmp/.htaccess
+COPY ./config/20-xdebug.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini
 
-ADD ./ssh/config /root/.ssh/config
-ADD ./ssh/dockerdev /root/.ssh/dockerdev
-ADD ./ssh/dockerdev.pub /root/.ssh/dockerdev.pub
-ADD ./ssh/authorized_keys /root/.ssh/authorized_keys
+COPY ./ssh/config /root/.ssh/config
+COPY ./ssh/dockerdev /root/.ssh/dockerdev
+COPY ./ssh/dockerdev.pub /root/.ssh/dockerdev.pub
+COPY ./ssh/authorized_keys /root/.ssh/authorized_keys
+
 
 RUN mkdir -p /var/run/php/ && touch /var/run/php/php7.0-fpm.pid
 

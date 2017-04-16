@@ -91,6 +91,7 @@ COPY ./ssh/dockerdev /root/.ssh/dockerdev
 COPY ./ssh/dockerdev.pub /root/.ssh/dockerdev.pub
 COPY ./ssh/authorized_keys /root/.ssh/authorized_keys
 COPY ./config/php-fpm.conf /etc/php5/fpm/php-fpm.conf
+COPY ./config/20-xdebug.ini /etc/php5/fpm/conf.d/20-xdebug.ini
 
 # Internal Port Expose
 EXPOSE 9000 22
