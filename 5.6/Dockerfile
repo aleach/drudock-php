@@ -86,6 +86,8 @@ RUN echo 'root:root' | chpasswd && \
     sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
     mkdir -p /root/.ssh/
 
+RUN drush @none dl utf8mb4_convert-7.x
+
 COPY ./ssh/config /root/.ssh/config
 COPY ./ssh/dockerdev /root/.ssh/dockerdev
 COPY ./ssh/dockerdev.pub /root/.ssh/dockerdev.pub
