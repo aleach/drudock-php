@@ -67,10 +67,6 @@ RUN curl -L -o /root/xhprof.tgz https://pecl.php.net/get/xhprof-$XHPROF_VERSION.
 # Cleanup build
     apt-get autoremove -y
 
-RUN echo "error_reporting = E_ALL\ndisplay_startup_errors = 1\ndisplay_errors = 1" >> /etc/php/5.6/fpm/conf.d/01-errors.ini && \
-    echo "error_reporting = E_ALL\ndisplay_startup_errors = 1\ndisplay_errors = 1" >> /etc/php/5.6/cli/conf.d/01-errors.ini && \
-    echo "mailhub=mailcatcher:1025\nUseTLS=NO\nFromLineOverride=YES" > /etc/ssmtp/ssmtp.conf
-
 RUN mkdir -p /var/run/sshd /var/log/supervisor && \
     usermod -u 1000 www-data && \
     usermod -a -G users www-data

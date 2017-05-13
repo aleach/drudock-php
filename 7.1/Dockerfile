@@ -90,13 +90,13 @@ RUN cd /root/.drush/ && \
     curl -O https://raw.githubusercontent.com/previousnext/drush_cmi_tools/8.x-1.x/drush_cmi_tools.drush.inc && \
     /usr/local/bin/drush cc drush
 
+RUN curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
+RUN mv phpcs.phar /usr/local/bin/phpcs
+RUN chmod +x /usr/local/bin/phpcs
 
-# Install Codesniffer && Drupal Standards/Coder
-RUN /usr/local/bin/composer global require "squizlabs/php_codesniffer=*"
-RUN /usr/local/bin/composer global require drupal/coder
-RUN ~/.composer/vendor/squizlabs/php_codesniffer/scripts/phpcs --config-set installed_paths ~/.composer/vendor/drupal/coder/coder_sniffer
-
-RUN echo "mailhub=mailcatcher:1025\nUseTLS=NO\nFromLineOverride=YES" > /etc/ssmtp/ssmtp.conf
+RUN curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar
+RUN mv phpcbf.phar /usr/local/bin/phpcbf
+RUN chmod +x /usr/local/bin/phpcbf
 
 # Setup SSH for behat usage between containers
 RUN echo 'root:root' | chpasswd && \
