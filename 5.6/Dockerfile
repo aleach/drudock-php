@@ -84,10 +84,6 @@ RUN echo 'root:root' | chpasswd && \
 
 RUN drush @none dl utf8mb4_convert-7.x
 
-COPY ./ssh/config /root/.ssh/config
-COPY ./ssh/dockerdev /root/.ssh/dockerdev
-COPY ./ssh/dockerdev.pub /root/.ssh/dockerdev.pub
-COPY ./ssh/authorized_keys /root/.ssh/authorized_keys
 COPY ./config/php-fpm.conf /etc/php5/fpm/php-fpm.conf
 COPY ./config/20-xdebug.ini /etc/php5/fpm/conf.d/20-xdebug.ini
 

@@ -118,11 +118,6 @@ COPY ./config/cli-php.ini /etc/php/7.0/fpm/cli-php.ini
 COPY ./config/htaccess /tmp/.htaccess
 COPY ./config/20-xdebug.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini
 
-COPY ./ssh/config /root/.ssh/config
-COPY ./ssh/dockerdev /root/.ssh/dockerdev
-COPY ./ssh/dockerdev.pub /root/.ssh/dockerdev.pub
-COPY ./ssh/authorized_keys /root/.ssh/authorized_keys
-
 RUN drush @none dl utf8mb4_convert-7.x
 
 RUN mkdir -p /var/run/php/ && touch /var/run/php/php7.0-fpm.pid
