@@ -116,7 +116,7 @@ COPY ./config/www.conf /etc/php/7.1/fpm/pool.d/www.conf
 COPY ./config/php.ini /etc/php/7.1/fpm/php.ini
 COPY ./config/cli-php.ini /etc/php/7.1/fpm/cli-php.ini
 COPY ./config/htaccess /tmp/.htaccess
-COPY ./config/20-xdebug.ini /etc/php/7.01/fpm/conf.d/20-xdebug.ini
+COPY ./config/20-xdebug.ini /etc/php/7.1/fpm/conf.d/20-xdebug.ini
 
 
 RUN drush @none dl utf8mb4_convert-7.x
