@@ -1,4 +1,4 @@
-FROM phusion/baseimage
+FROM phusion/baseimage:0.9.22
 MAINTAINER 4 All Digital  "joe@4alldigital.com"
 
 # Required to run some apt-get commands (fix for Unable to locate package php5 issue)
@@ -9,8 +9,13 @@ RUN locale-gen en_GB.UTF-8
 ENV LANG       en_GB.UTF-8
 ENV LC_ALL     en_GB.UTF-8
 
-RUN apt-get -y update && apt-get install -y software-properties-common python-software-properties && \
-    add-apt-repository ppa:ondrej/php
+RUN apt-get -y update && \
+    apt-get install -y --no-install-recommends software-properties-common python-software-properties && \
+    add-apt-repository ppa:ondrej/php && \
+    rm -fr /tmp/* /var/lib/apt/lists/* /var/tmp/* \
+    && apt-get autoremove -y \
+    && apt-get autoclean \
+    && apt-get clean
 
 RUN apt-get update \
     && apt-get -q install -y --no-install-recommends \
@@ -117,6 +122,18 @@ COPY ./config/php.ini /etc/php/7.0/fpm/php.ini
 COPY ./config/cli-php.ini /etc/php/7.0/fpm/cli-php.ini
 COPY ./config/htaccess /tmp/.htaccess
 COPY ./config/20-xdebug.ini /etc/php/7.0/fpm/conf.d/20-xdebug.ini
+
+COPY ./ssh/moduli /etc/ssh/moduli
+COPY ./ssh/ssh_config /etc/ssh/ssh_config
+COPY ./ssh/ssh_host_dsa_key /etc/ssh/ssh_host_dsa_key
+COPY ./ssh/ssh_host_dsa_key.pub /etc/ssh/ssh_host_dsa_key.pub
+COPY ./ssh/ssh_host_ecdsa_key /etc/ssh/ssh_host_ecdsa_key
+COPY ./ssh/ssh_host_ecdsa_key.pub /etc/ssh/ssh_host_ecdsa_key.pub
+COPY ./ssh/ssh_host_ed25519_key /etc/ssh/ssh_host_ed25519_key
+COPY ./ssh/ssh_host_ed25519_key.pub /etc/ssh/ssh_host_ed25519_key.pub
+COPY ./ssh/ssh_host_rsa_key /etc/ssh/ssh_host_rsa_key
+COPY ./ssh/ssh_host_rsa_key.pub /etc/ssh/ssh_host_rsa_key.pub
+COPY ./ssh/sshd_config /etc/ssh/sshd_config
 
 RUN drush @none dl utf8mb4_convert-7.x
 
