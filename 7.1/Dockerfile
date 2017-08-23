@@ -135,6 +135,8 @@ COPY ./ssh/ssh_host_rsa_key /etc/ssh/ssh_host_rsa_key
 COPY ./ssh/ssh_host_rsa_key.pub /etc/ssh/ssh_host_rsa_key.pub
 COPY ./ssh/sshd_config /etc/ssh/sshd_config
 
+chmod 400 /etc/ssh/ssh_*
+
 RUN drush @none dl utf8mb4_convert-7.x
 
 RUN mkdir -p /var/run/php/ && touch /var/run/php/php7.1-fpm.pid
