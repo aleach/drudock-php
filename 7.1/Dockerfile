@@ -138,8 +138,6 @@ COPY ./ssh/sshd_config /etc/ssh/sshd_config
 
 RUN chmod 400 /etc/ssh/ssh_*
 
-RUN drush @none dl utf8mb4_convert-7.x
-
 RUN mkdir -p /var/run/php/ && touch /var/run/php/php7.1-fpm.pid
 
 # Internal Port Expose
