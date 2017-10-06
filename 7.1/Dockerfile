@@ -86,7 +86,7 @@ RUN curl https://drupalconsole.com/installer -L -o drupal.phar && \
     echo "PATH=$PATH:~/.composer/vendor/bin" >> ~/.bashrc
 
 # Install useful Drush
-RUN /usr/local/bin/composer global require drush/drush:8.1.2 && \
+RUN /usr/local/bin/composer global require drush/drush:9.0.x-dev && \
     ln -s /root/.composer/vendor/drush/drush/drush /usr/local/bin/drush
 
 RUN mkdir /root/.drush/
@@ -121,6 +121,7 @@ COPY ./config/www.conf /etc/php/7.1/fpm/pool.d/www.conf
 COPY ./config/php.ini /etc/php/7.1/fpm/php.ini
 COPY ./config/cli-php.ini /etc/php/7.1/fpm/cli-php.ini
 COPY ./config/htaccess /tmp/.htaccess
+COPY ./config/20-opcache.ini /etc/php/7.1/fpm/conf.d/20-xdebug.ini
 COPY ./config/20-xdebug.ini /etc/php/7.1/fpm/conf.d/20-xdebug.ini
 
 COPY ./ssh/moduli /etc/ssh/moduli
@@ -135,7 +136,7 @@ COPY ./ssh/ssh_host_rsa_key /etc/ssh/ssh_host_rsa_key
 COPY ./ssh/ssh_host_rsa_key.pub /etc/ssh/ssh_host_rsa_key.pub
 COPY ./ssh/sshd_config /etc/ssh/sshd_config
 
-chmod 400 /etc/ssh/ssh_*
+RUN chmod 400 /etc/ssh/ssh_*
 
 RUN drush @none dl utf8mb4_convert-7.x
 
