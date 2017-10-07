@@ -80,20 +80,16 @@ RUN apt-get update \
 
 
 # Install drupal console with composer
-RUN curl https://drupalconsole.com/installer -L -o drupal.phar && \
-    mv drupal.phar /usr/local/bin/drupal && \
-    chmod +x /usr/local/bin/drupal && \
-    echo "PATH=$PATH:~/.composer/vendor/bin" >> ~/.bashrc
+# RUN curl https://drupalconsole.com/installer -L -o drupal.phar && \
+#     mv drupal.phar /usr/local/bin/drupal && \
+#     chmod +x /usr/local/bin/drupal && \
+#     echo "PATH=$PATH:~/.composer/vendor/bin" >> ~/.bashrc
 
 # Install useful Drush
-RUN /usr/local/bin/composer global require drush/drush:9.0.x-dev && \
+RUN /usr/local/bin/composer global require drush/drush:8.1.14 && \
     ln -s /root/.composer/vendor/drush/drush/drush /usr/local/bin/drush
 
 RUN mkdir /root/.drush/
-
-RUN cd /root/.drush/ && \
-    curl -O https://raw.githubusercontent.com/previousnext/drush_cmi_tools/8.x-1.x/drush_cmi_tools.drush.inc && \
-    /usr/local/bin/drush cc drush
 
 RUN curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
 RUN mv phpcs.phar /usr/local/bin/phpcs
@@ -121,7 +117,7 @@ COPY ./config/www.conf /etc/php/7.1/fpm/pool.d/www.conf
 COPY ./config/php.ini /etc/php/7.1/fpm/php.ini
 COPY ./config/cli-php.ini /etc/php/7.1/fpm/cli-php.ini
 COPY ./config/htaccess /tmp/.htaccess
-COPY ./config/20-opcache.ini /etc/php/7.1/fpm/conf.d/20-xdebug.ini
+COPY ./config/20-opcache.ini /etc/php/7.1/fpm/conf.d/20-opcache.ini
 COPY ./config/20-xdebug.ini /etc/php/7.1/fpm/conf.d/20-xdebug.ini
 
 COPY ./ssh/moduli /etc/ssh/moduli
