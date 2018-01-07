@@ -23,7 +23,6 @@ RUN apt-get update \
         php7.1-cli \
         php7.1-common \
         php-redis \
-        php-xdebug \
         php7.1-curl \
         php7.1-mysql \
         php7.1-gd \
@@ -78,31 +77,11 @@ RUN apt-get update \
     && apt-get autoclean \
     && apt-get clean
 
-
-# Install drupal console with composer
-# RUN curl https://drupalconsole.com/installer -L -o drupal.phar && \
-#     mv drupal.phar /usr/local/bin/drupal && \
-#     chmod +x /usr/local/bin/drupal && \
-#     echo "PATH=$PATH:~/.composer/vendor/bin" >> ~/.bashrc
-
 # Install useful Drush
 RUN /usr/local/bin/composer global require drush/drush:8.1.14 && \
     ln -s /root/.composer/vendor/drush/drush/drush /usr/local/bin/drush
 
 RUN mkdir /root/.drush/
-
-RUN curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
-RUN mv phpcs.phar /usr/local/bin/phpcs
-RUN chmod +x /usr/local/bin/phpcs
-
-RUN curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar
-RUN mv phpcbf.phar /usr/local/bin/phpcbf
-RUN chmod +x /usr/local/bin/phpcbf
-
-# Setup SSH for behat usage between containers
-RUN echo 'root:root' | chpasswd && \
-    sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
-    mkdir -p /root/.ssh/
 
 RUN mkdir -p /app/www
 WORKDIR /app/www
@@ -117,8 +96,6 @@ COPY ./config/www.conf /etc/php/7.1/fpm/pool.d/www.conf
 COPY ./config/php.ini /etc/php/7.1/fpm/php.ini
 COPY ./config/cli-php.ini /etc/php/7.1/fpm/cli-php.ini
 COPY ./config/htaccess /tmp/.htaccess
-COPY ./config/20-opcache.ini /etc/php/7.1/fpm/conf.d/20-opcache.ini
-COPY ./config/20-xdebug.ini /etc/php/7.1/fpm/conf.d/20-xdebug.ini
 
 COPY ./ssh/moduli /etc/ssh/moduli
 COPY ./ssh/ssh_config /etc/ssh/ssh_config
@@ -137,8 +114,9 @@ RUN chmod 400 /etc/ssh/ssh_*
 RUN mkdir -p /var/run/php/ && touch /var/run/php/php7.1-fpm.pid
 
 # Accept Symfony pseudo TTY session
-RUN echo "export TERM=xterm-256color" >> ~/.bashrc && \
-    source ~/.bashrc
+RUN touch /root/.bashrc && \
+    echo "export TERM=xterm-256color" >> /root/.bashrc && \
+    source /root/.bashrc
 
 # Internal Port Expose
 EXPOSE 9000 22
