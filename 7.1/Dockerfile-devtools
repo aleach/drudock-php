@@ -9,7 +9,7 @@ RUN apt-get update \
     && apt-get autoclean \
     && apt-get clean
 
-Install drupal console with composer
+#Install drupal console with composer
 RUN curl https://drupalconsole.com/installer -L -o drupal.phar && \
     mv drupal.phar /usr/local/bin/drupal && \
     chmod +x /usr/local/bin/drupal && \
