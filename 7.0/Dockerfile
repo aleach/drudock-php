@@ -142,8 +142,8 @@ RUN drush @none dl utf8mb4_convert-7.x
 RUN mkdir -p /var/run/php/ && touch /var/run/php/php7.0-fpm.pid
 
 # Accept Symfony pseudo TTY session
-RUN echo "export TERM=xterm-256color" >> ~/.bashrc && \
-    source ~/.bashrc
+RUN touch /root/.bashrc && \
+    echo "export TERM=xterm-256color" >> /root/.bashrc
 
 # Internal Port Expose
 EXPOSE 9000 22
