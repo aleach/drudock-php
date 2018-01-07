@@ -136,6 +136,10 @@ RUN chmod 400 /etc/ssh/ssh_*
 
 RUN mkdir -p /var/run/php/ && touch /var/run/php/php7.1-fpm.pid
 
+# Accept Symfony pseudo TTY session
+RUN echo "export TERM=xterm-256color" >> ~/.bashrc && \
+    source ~/.bashrc
+
 # Internal Port Expose
 EXPOSE 9000 22
 
