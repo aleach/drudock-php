@@ -91,10 +91,6 @@ RUN /usr/local/bin/composer global require drush/drush:8.1.2 && \
 
 RUN mkdir /root/.drush/
 
-RUN cd /root/.drush/ && \
-    curl -O https://raw.githubusercontent.com/previousnext/drush_cmi_tools/8.x-1.x/drush_cmi_tools.drush.inc && \
-    /usr/local/bin/drush cc drush
-
 RUN curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcs.phar
 RUN mv phpcs.phar /usr/local/bin/phpcs
 RUN chmod +x /usr/local/bin/phpcs

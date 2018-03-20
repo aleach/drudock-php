@@ -2,7 +2,7 @@ FROM 4alldigital/drudock-php:7.1
 
 RUN apt-get update \
     && apt-get -q install -y --no-install-recommends \
-        php-xdebug && \
+        php-xdebug git && \
     # cleanup
     rm -fr /tmp/* /var/lib/apt/lists/* /var/tmp/* \
     && apt-get autoremove -y \
