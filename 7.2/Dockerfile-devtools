@@ -23,6 +23,10 @@ RUN curl -OL https://squizlabs.github.io/PHP_CodeSniffer/phpcbf.phar
 RUN mv phpcbf.phar /usr/local/bin/phpcbf
 RUN chmod +x /usr/local/bin/phpcbf
 
+RUN curl https://drupalconsole.com/installer -L -o drupal.phar
+RUN mv drupal.phar /usr/local/bin/drupal
+RUN chmod +x /usr/local/bin/drupal
+
 # Setup SSH for behat usage between containers
 RUN echo 'root:root' | chpasswd && \
     sed -i 's/PermitRootLogin without-password/PermitRootLogin yes/' /etc/ssh/sshd_config && \
