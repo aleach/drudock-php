@@ -86,7 +86,7 @@ RUN curl https://drupalconsole.com/installer -L -o drupal.phar && \
     echo "PATH=$PATH:~/.composer/vendor/bin" >> ~/.bashrc
 
 # Install useful Drush
-RUN /usr/local/bin/composer global require drush/drush:8.1.2 && \
+RUN /usr/local/bin/composer global require drush/drush:8.1.16 && \
     ln -s /root/.composer/vendor/drush/drush/drush /usr/local/bin/drush
 
 RUN mkdir /root/.drush/
