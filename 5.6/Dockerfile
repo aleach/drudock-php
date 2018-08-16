@@ -13,23 +13,45 @@ ENV XHPROF_VERSION 0.9.4
 ENV XDEBUG_VERSION 2.4.0
 ENV XDEBUG_MD5 a9bc9c6b9e8bc913fb1f7c6f6d19f6222d430414
 
-RUN apt-get -y update && apt-get install -y --no-install-recommends software-properties-common python-software-properties && \
-    add-apt-repository ppa:ondrej/php && \
-    apt-get update -y && \
-    rm -fr /tmp/* /var/lib/apt/lists/* /var/tmp/* \
-    && apt-get autoremove -y \
-    && apt-get autoclean \
-    && apt-get clean
+RUN apt-get update
 
-RUN apt-get -q install -y --no-install-recommends php5.6-fpm php5.6-curl curl\
-    build-essential php5.6-dev php5.6-xdebug wget php5.6-mcrypt php5.6-gd imagemagick\
-    php5.6-xsl php5.6-imap php5.6-pgsql php5.6-mysql mysql-client ssmtp\
-    php5.6-common php-pear nginx-extras php5.6-redis php5.6-json php5.6-cli supervisor\
-    msmtp mailutils libncurses-dev zlib1g-dev php5.6-json openssh-server make\
-    libreadline-dev libncurses5-dev libpcre3-dev libssl-dev perl libxslt1-dev libgd2-xpm-dev\
-    libgeoip-dev libxrender1 libssl-dev libbz2-dev libcurl4-openssl-dev\
-    libfreetype6 libfreetype6-dev libfontconfig libfontconfig1 libexpat-dev git && \
-    apt-get autoremove
+RUN apt-get install -y \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng12-dev \
+    libmcrypt-dev \
+    libxslt-dev \
+    libicu-dev \
+    unzip \
+    geoip-bin \
+    geoip-database \
+    libgeoip-dev \
+    php5-geoip \
+    nano \
+    mysql-client
+
+RUN rm -rf /var/lib/apt/lists/*
+
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
+RUN docker-php-ext-install \
+    opcache \
+    exif \
+    dba \
+    gd \
+    mcrypt \
+    iconv \
+    mbstring \
+    pdo_mysql \
+    mysqli \
+    soap \
+    zip \
+    xsl \
+    xmlrpc
+
+RUN usermod -u 1000 www-data
+
+COPY ./conf/php.ini /usr/local/etc/php/php.ini
+COPY ./conf/php.conf /usr/local/etc/php-fpm.d/php.conf
 
 # Install XHPROF
 RUN curl -L -o /root/xhprof.tgz https://pecl.php.net/get/xhprof-$XHPROF_VERSION.tgz && \
@@ -87,6 +109,7 @@ RUN echo 'root:root' | chpasswd && \
     mkdir -p /root/.ssh/
 
 RUN drush @none dl utf8mb4_convert-7.x
+RUN drush dl registry_rebuild-7.x
 
 COPY ./config/php-fpm.conf /etc/php5/fpm/php-fpm.conf
 COPY ./config/20-xdebug.ini /etc/php5/fpm/conf.d/20-xdebug.ini
