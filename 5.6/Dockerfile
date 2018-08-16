@@ -103,7 +103,7 @@ COPY ./ssh/ssh_host_rsa_key /etc/ssh/ssh_host_rsa_key
 COPY ./ssh/ssh_host_rsa_key.pub /etc/ssh/ssh_host_rsa_key.pub
 COPY ./ssh/sshd_config /etc/ssh/sshd_config
 
-chmod 400 /etc/ssh/ssh_*
+RUN chmod 400 /etc/ssh/ssh_*
 
 # Internal Port Expose
 EXPOSE 9000 22
